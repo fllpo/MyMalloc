@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     char *vetor;
     int i;
 
-    InitMyMalloc();
+    MyMallocInit(TAMANHO_MAX_MALLOC);
 
     vetor = MyMalloc(10);
     if (vetor == NULL)
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     printf("Nova string: %s\n", vetor);
 
-    MyFree(vetor);
+    MyMallocFree(vetor);
 
     return (0);
 }

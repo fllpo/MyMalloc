@@ -3,10 +3,9 @@
 
 #define TAMANHO_MAX_MALLOC (1024 * 1024 * 16)
 
-void InitMyMalloc();
+int MyMallocInit(int tamanho);
 void *MyMalloc(int tamanho);
-void MyFree(void *buffer);
-
-void PrintMyMallocFreeList();
+int MyMallocFree(void *buffer);
+void MyMallocGerency();
 
 #endif

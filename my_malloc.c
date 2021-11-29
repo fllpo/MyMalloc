@@ -11,12 +11,13 @@ struct malloc_struct
     unsigned char *buffer;
 };
 
-InitMyMalloc()
+MyMallocInit(int tamanho)
 {
-
     ListaLivre = (struct malloc_struct *)Buff;
-    ListaLivre->proximo = NULL;
     ListaLivre->anterior = NULL;
+    ListaLivre->proximo = NULL;
     ListaLivre->tamanho = sizeof(Buff) - sizeof(struct malloc_struct);
     ListaLivre->buffer = (unsigned char *)(Buff + sizeof(struct malloc_struct));
+
+    return 1;
 }
