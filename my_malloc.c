@@ -1,23 +1,96 @@
 #include "my_malloc.h"
 
-static struct malloc_struct *ListaLivre;
-static unsigned char Buff[TAMANHO_MAX_MALLOC];
-
-struct malloc_struct
+int MyMallocInit()
 {
-    struct malloc_struct *proximo;
-    struct malloc_struct *anterior;
-    int tamanho;
-    unsigned char *buffer;
-};
-
-MyMallocInit(int tamanho)
-{
-    ListaLivre = (struct malloc_struct *)Buff;
-    ListaLivre->anterior = NULL;
+    ListaLivre = (struct bloco_struct *)Buff;
+    ListaLivre->tamanho = sizeof(Buff) - sizeof(struct bloco_struct);
     ListaLivre->proximo = NULL;
-    ListaLivre->tamanho = sizeof(Buff) - sizeof(struct malloc_struct);
-    ListaLivre->buffer = (unsigned char *)(Buff + sizeof(struct malloc_struct));
-
+    ListaLivre->livre=true;
     return 1;
+}
+
+void *MyMalloc(size_t numBytes)
+{
+    struct bloco_struct *atual, *anterior;
+    void *resultado;
+
+    if (!(ListaLivre->tamanho))
+    {
+        MyMallocInit();
+        printf("Memoria Iniciada!\n");
+    }
+    
+    atual=ListaLivre;
+
+    while (((atual->tamanho)<numBytes)||((atual->tamanho)==0)&&(atual->proximo!=NULL));
+    {
+        anterior=atual;
+        atual=atual->proximo;
+        printf("bloco verificado\n");
+    }
+    if ((atual->tamanho)==numBytes)
+    {
+        atual->livre=false;
+        resultado=(void*)(++atual);
+        printf("espaço exato do bloco alocado\n");
+        return resultado;
+    }
+    else if ((atual->tamanho)>(numBytes+sizeof(struct bloco_struct))){
+        MyMallocSplit(atual,numBytes);
+        resultado=(void*)(++atual);
+        printf("espaço do bloco alocado com divisão\n");
+        return resultado;
+    }
+    else
+    {
+        resultado=NULL;
+        printf("Memoria insuficiente\n");
+        return resultado;
+    }
+}
+
+void MyMallocSplit(struct bloco_struct *espaco,size_t tamanho){
+
+    struct bloco_struct *novo=(void*)(void*)espaco+tamanho+sizeof(struct bloco_struct);
+    novo->tamanho=(espaco->tamanho)-tamanho-sizeof(struct bloco_struct);
+    novo->livre=true;
+    novo->proximo=espaco->proximo;
+    espaco->tamanho=tamanho;
+    espaco->livre=false;
+    espaco->proximo=novo;
+}
+
+void MyMallocMerge(){
+    struct bloco_struct *atual, *anterior;
+    atual=ListaLivre;
+    while ((atual->proximo)!=NULL)
+    {
+        if ((atual->livre)&&(atual->proximo->livre))
+        {
+            atual->tamanho+=(atual->proximo->tamanho)+sizeof(struct bloco_struct);
+            atual->proximo=atual->proximo->proximo;
+        }
+        anterior=atual;
+        atual=atual->proximo;
+    }
+}
+
+int MyMallocFree(void *ptr)
+{
+    if(((void*)Buff<=ptr)&&(ptr<=(void*)(Buff+TAMANHO_MAX_MALLOC))){
+        struct bloco_struct *atual=ptr;
+        --atual;
+        atual->livre=true;
+        MyMallocMerge();
+    }
+    else printf("Ponteiro inválido\n");
+}
+
+void MyMallocGerency()
+{
+    printf("bloco: %p\n");
+    printf("tamanho: %d\n");
+    printf("proximo: %p\n");
+    printf("anterior: %p\n");
+    printf("ptr: %p\n");
 }
