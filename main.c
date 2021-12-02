@@ -3,7 +3,8 @@
 int main(int argc, char *argv[])
 {
     
-    int *p=(int)MyMalloc(100);
+    int *p = MyMalloc(400*sizeof(int));
+    int *q = MyMalloc(400*sizeof(int));
 
     return 0;
 }

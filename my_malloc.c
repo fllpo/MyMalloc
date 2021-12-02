@@ -17,16 +17,16 @@ void *MyMalloc(size_t numBytes)
     if (!(ListaLivre->tamanho))
     {
         MyMallocInit();
-        printf("Memoria Iniciada!\n");
+        printf("Memoria iniciada\n");
     }
     
     atual=ListaLivre;
 
-    while (((atual->tamanho)<numBytes)||((atual->tamanho)==0)&&(atual->proximo!=NULL));
+    while (((atual->tamanho)<numBytes)||((atual->tamanho)==0)&&(atual->proximo!=NULL))
     {
         anterior=atual;
         atual=atual->proximo;
-        printf("bloco verificado\n");
+        printf("Bloco verificado\n");
     }
     if ((atual->tamanho)==numBytes)
     {
@@ -86,6 +86,7 @@ int MyMallocFree(void *ptr)
     else printf("Ponteiro inválido\n");
 }
 
+/*
 void MyMallocGerency()
 {
     printf("bloco: %p\n");
@@ -94,3 +95,4 @@ void MyMallocGerency()
     printf("anterior: %p\n");
     printf("ptr: %p\n");
 }
+*/
