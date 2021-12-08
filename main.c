@@ -2,10 +2,8 @@
 
 int main(int argc, char *argv[])
 {
+    int *p = (int)MyMalloc(100*sizeof(int));
+    MyMallocFree(p);
     
-    printf("%p\n",MyMalloc(400));
-    
-
-
     return 0;
 }
