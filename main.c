@@ -3,8 +3,9 @@
 int main(int argc, char *argv[])
 {
     
-    int *p = MyMalloc(400*sizeof(int));
-    int *q = MyMalloc(400*sizeof(int));
+    printf("%p\n",MyMalloc(400));
+    
+
 
     return 0;
 }

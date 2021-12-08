@@ -18,9 +18,9 @@ struct bloco_struct
 
 int MyMallocInit();
 void *MyMalloc(size_t numBytes);
-void MyMallocSplit(struct bloco_struct *fitting_slot,size_t tamanho);
+void MyMallocSplit(struct bloco_struct *espaco, size_t tamanho);
 void MyMallocMerge();
 int MyMallocFree(void *buffer);
-void MyMallocGerency();
+void MyMallocGerency(struct bloco_struct *bloco);
 
 #endif
