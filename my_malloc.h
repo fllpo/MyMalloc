@@ -4,8 +4,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <sys/mman.h>
 #define MY_MALLOC_H
-#define TAMANHO_MAX_MALLOC (2048)
+#define TAMANHO_MAX_MALLOC (20000)
 
 static unsigned char Buff[TAMANHO_MAX_MALLOC];
 static struct bloco_struct *ListaLivre=(void*)Buff;
@@ -20,7 +21,7 @@ int MyMallocInit();
 void *MyMalloc(size_t numBytes);
 void MyMallocSplit(struct bloco_struct *espaco, size_t tamanho);
 void MyMallocMerge();
-int MyMallocFree(void *buffer);
+void MyMallocFree(void* buffer);
 void MyMallocGerency(struct bloco_struct *bloco);
 
 #endif

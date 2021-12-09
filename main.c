@@ -2,8 +2,11 @@
 
 int main(int argc, char *argv[])
 {
-    int *p = (int)MyMalloc(100*sizeof(int));
+    int *p = (int*)MyMalloc(250*sizeof(int));
+    int *r = (int*)MyMalloc(1000*sizeof(int));
+
     MyMallocFree(p);
-    
-    return 0;
+    MyMallocFree(r);
+
+        return 0;
 }

@@ -2,10 +2,9 @@
 
 int MyMallocInit()
 {
-    ListaLivre = (struct bloco_struct *)Buff;
-    ListaLivre->tamanho = sizeof(Buff) - sizeof(struct bloco_struct);
+    ListaLivre->tamanho = sizeof(Buff)-sizeof(struct bloco_struct);
     ListaLivre->proximo = NULL;
-    ListaLivre->livre=true;
+    ListaLivre->livre = true;
     return 1;
 }
 
@@ -17,7 +16,7 @@ void *MyMalloc(size_t numBytes)
     if (!(ListaLivre->tamanho))
     {
         MyMallocInit();
-        printf("Memoria iniciada\n");
+        printf("MyMemória iniciada\n\n");
     }
     
     atual=ListaLivre;
@@ -26,25 +25,24 @@ void *MyMalloc(size_t numBytes)
     {
         anterior=atual;
         atual=atual->proximo;
-        printf("Bloco verificado\n");
     }
     if ((atual->tamanho)==numBytes)
     {
         atual->livre=false;
+        MyMallocGerency(atual);
         resultado=(void*)(++atual);
-        printf("%ld bytes alocado\n", (int*)numBytes);
         return resultado;
     }
     else if ((atual->tamanho)>(numBytes+sizeof(struct bloco_struct))){
         MyMallocSplit(atual,numBytes);
+        MyMallocGerency(atual);
         resultado=(void*)(++atual);
-        printf("%ld bytes alocado com divisão\n", (int*)numBytes);
         return resultado;
     }
     else
     {
         resultado=NULL;
-        printf("Memoria insuficiente\n");
+        printf("Memória insuficiente\n\n");
         return resultado;
     }
 }
@@ -75,18 +73,20 @@ void MyMallocMerge(){
     }
 }
 
-int MyMallocFree(void *ptr)
+void MyMallocFree(void *ptr)
 {
-    if(((void*)Buff<=ptr)&&(ptr<=(void*)(Buff+TAMANHO_MAX_MALLOC))){
-        struct bloco_struct *atual=ptr;
+    if(((void*)Buff<=ptr)&&(ptr<=((void*)(Buff+TAMANHO_MAX_MALLOC)))){
+        struct bloco_struct* atual=ptr;
         --atual;
         atual->livre=true;
         MyMallocMerge();
-        printf("Bloco liberado\n");
-        return 1;
+        printf("MyMallocFree():\nBloco %p liberado\n\n", atual);
     }
     else {
-        printf("Ponteiro inválido\n");
-        return 0;
+        printf("MyMallocFree():\nPonteiro inválido\n\n");
     }
+}
+
+void MyMallocGerency(struct bloco_struct *bloco){
+    printf("MyMallocGerency():\nBloco: %p \nEspaço alocado: %d bytes\n\n", bloco, bloco->tamanho);
 }
