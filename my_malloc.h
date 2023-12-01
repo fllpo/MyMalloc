@@ -9,7 +9,7 @@
 #define TAMANHO_MAX_MALLOC (20000)
 
 static unsigned char Buff[TAMANHO_MAX_MALLOC];
-static struct bloco_struct *ListaLivre=(void*)Buff;
+static struct bloco_struct *ListaLivre = (void *)Buff;
 struct bloco_struct
 {
     size_t tamanho;
@@ -21,7 +21,7 @@ int MyMallocInit();
 void *MyMalloc(size_t numBytes);
 void MyMallocSplit(struct bloco_struct *espaco, size_t tamanho);
 void MyMallocMerge();
-void MyMallocFree(void* buffer);
-void MyMallocGerency(struct bloco_struct *bloco);
+void MyMallocFree(void *buffer);
+void MyMallocGerency(void *ptr);
 
 #endif
